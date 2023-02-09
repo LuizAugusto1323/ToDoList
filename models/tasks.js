@@ -18,8 +18,13 @@ function updateTask(id, tarefa, data, comentario){
 }
 
 function showTasks(){
-  const show = conexao.connection.query('SELECT * FROM tarefas;')
-  return show;
+  const show = conexao.connection.query("SELECT * FROM tarefas;", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      return result;
+    }
+  });
 }
 
 module.exports = {insertTask, deletTask, updateTask, showTasks}
