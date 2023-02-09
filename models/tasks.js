@@ -21,3 +21,5 @@ function showTasks(){
   const show = conexao.connection.query('SELECT * FROM tarefas;')
   return show;
 }
+
+module.exports = {insertTask, deletTask, updateTask, showTasks}
