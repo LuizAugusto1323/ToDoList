@@ -9,33 +9,39 @@ router.get('/', async (req, res) => {
 
 router.delete('/delete/:id', async (req, res) => {
   const del = await functionTasks.deletTask(req.params.id);
-  res.json({"message": del});
-})
+  res.json({ message: del });
+});
 
 router.post('/insert', async (req, res) => {
-  const funcInsert = await functionTasks.insertTask(req.body.tarefa, req.body.data, req.body.comentario);
-  res.json({"message": funcInsert});
-})
+  const funcInsert = await functionTasks.insertTask(
+    req.body.tarefa,
+    req.body.comentario,
+  );
+  res.redirect('/');
+});
 
 router.get('/show', async (req, res) => {
   const tasks = await functionTasks.showTasks();
   res.json(tasks);
-})
+});
 
 router.put('/update/:id', async (req, res) => {
-  const up = await functionTasks.updateTask(req.params.id, req.body.tarefa, req.body.data, req.body.comentario);
-  res.json({"message":up});
-})
+  const up = await functionTasks.updateTask(
+    req.params.id,
+    req.body.tarefa,
+    req.body.comentario,
+  );
+  res.json({ message: up });
+});
 
 router.get('/deleted', async (req, res) => {
   const erased = await functionTasks.showDeleted();
-  res.json(erased)
-})
+  res.json(erased);
+});
 
 router.post('/ready/:id', async (req, res) => {
   const final = await functionTasks.ready(req.params.id, req.body.status);
-    res.json({"message": final});
-}
-)
+  res.json({ message: final });
+});
 
 module.exports = router;

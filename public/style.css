@@ -1,0 +1,98 @@
+body, header, button, ul, li, span, div, p {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  background: #000;
+  font-size: 1.5rem;
+}
+
+li {
+  list-style: none;
+}
+
+.corpo {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 50px;
+  background: #000;
+}
+
+#board{
+  margin: 20px;
+  border: 2px solid black;
+  border-radius: 10px;
+  box-shadow: 10px 10px 30px 20px rgba(62,0,141,.6), -10px -10px 30px 20px rgba(62,0,141,.6);
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 0;
+  background: #000;
+  height: 150px;
+  border-radius: 10px 10px 0 0;
+  align-items: center;
+}
+
+.header img {
+  margin-left: 50px;
+}
+
+.header form input{
+  font-size: 1.5rem;
+  padding: 10px 20px;
+  background: #ddd;
+  border-color: #3E008D;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.header form button{
+  font-size: 1.5rem;
+  padding: 5px 30px;
+  border-radius: 10px;
+  background: #3E008D;
+  color: #fff;
+}
+
+.content {
+  background: #fff;
+  border-radius: 0 0 10px 10px;
+}
+
+.btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  border-radius: 0 0 0 10px;
+  background: #3E008D;
+}
+
+.btns button {
+  background: transparent;
+  width: 60px;
+  border: none;
+  margin: 30px 0px;
+  cursor: pointer;
+}
+
+.tasks ul{
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 10px 30px;
+  text-align: center;
+}
+
+.tasks ul:nth-child(2n+1){
+  background: #ddd;
+}
+
+#coment {
+  text-align: left;
+  height: 40px;
+  width: 600px;
+}
