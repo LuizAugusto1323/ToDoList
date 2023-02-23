@@ -51,48 +51,42 @@ li {
 
 .header form button{
   font-size: 1.5rem;
-  padding: 5px 30px;
+  padding: 10px 20px;
   border-radius: 10px;
   background: #3E008D;
   color: #fff;
 }
 
-.content {
+.tasks {
   background: #fff;
   border-radius: 0 0 10px 10px;
 }
 
-.btns {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100px;
-  border-radius: 0 0 0 10px;
-  background: #3E008D;
-}
-
-.btns button {
-  background: transparent;
-  width: 60px;
-  border: none;
-  margin: 30px 0px;
-  cursor: pointer;
-}
-
 .tasks ul{
-  display: flex;
+  display: grid;
+  grid-template-columns: 20px 180px 600px 180px 40px 40px;
   align-items: center;
   gap: 30px;
   padding: 10px 30px;
-  text-align: center;
 }
 
 .tasks ul:nth-child(2n+1){
   background: #ddd;
+  border-radius: 0 0 10px 10px;
 }
 
-#coment {
-  text-align: left;
-  height: 40px;
-  width: 600px;
+.tasks ul li button{
+  padding: 10px;
+  cursor: pointer;
+  height: 60px;
+  width: 60px;
+  border: none;
+}
+
+#del {
+  background: url("./img/del.svg") center no-repeat;
+}
+
+#edit {
+  background: url("./img/edit.svg") center no-repeat;
 }

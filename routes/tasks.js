@@ -3,7 +3,7 @@ const app = express();
 const router = express.Router();
 const functionTasks = require('../models/tasks.js');
 
-router.get('/', async (req, res) => {
+router.get('/tasks', async (req, res) => {
   res.json('teste');
 });
 
@@ -17,7 +17,7 @@ router.post('/insert', async (req, res) => {
     req.body.tarefa,
     req.body.comentario,
   );
-  res.redirect('/');
+  res.redirect('/tasks');
 });
 
 router.get('/show', async (req, res) => {
