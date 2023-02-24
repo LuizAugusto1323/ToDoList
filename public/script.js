@@ -1,52 +1,59 @@
 const btnAdc = document.querySelector('#btnAdc');
 
 function add() {
-  show();
   const name = document.querySelector('#tarefa');
   const coment = document.querySelector('#comentario');
   const data = {
     tarefa: name.value,
     comentario: coment.value,
   };
-  // como fazer post com fetch tambem
-  /* fetch('http://localhost:3000/tasks/insert', {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json; charset=UTF-8',
-    },
-    body: JSON.stringify(data),
-  }); */
-  axios.post('http://localhost:3000/tasks/insert', data).then((response) => {
-    console.log(response.data);
-  });
+  if (data.tarefa !== '' && data.comentario !== '') {
+    show();
+    axios.post('http://localhost:3000/tasks/insert', data);
+  }
 }
-
 function show() {
   const divTask = document.querySelector('.tasks');
   axios.get('http://localhost:3000/tasks/show').then((response) => {
     response.data.forEach((task) => {
-      let date = new Date(task.created_at);
-
-      console.log();
+      let date = new Date(task.updated_at);
       const childElement = document.createElement('ul');
-      childElement.className = 'task';
+      childElement.className = task.id;
       childElement.innerHTML = `<li><input type="checkbox"></li><li>${
         task.tarefa
       }</li><li>${
         task.comentario
-      }</li><li>${date.toLocaleDateString()}</li><li><button id='edit'></button></li><li><button id='del'></button></li>`;
+      }</li><li>Atualizada em: ${date.toLocaleDateString()}</li><li><button id='edit' onClick="edit(${
+        task.id
+      })"></button></li><li><button id='del'></button></li>`;
       divTask.appendChild(childElement);
     });
   });
 }
 show();
+btnAdc.addEventListener('click', add);
 
-async function edit() {
-  await show();
-  const btnEdit = document.querySelectorAll('#edit');
-  console.log(btnEdit);
+const botaoFechar = document.querySelector('[data-modal="fechar"]');
+const containerModal = document.querySelector('[data-modal="container"]');
+const btnAtualizar = document.querySelector('#atualizar');
+
+function edit(id) {
+  containerModal.classList.add('ativo');
+  const newName = document.querySelector('#nome');
+  const newComent = document.querySelector('#coment');
+  function atualizar() {
+    if (newName.value !== '' && newComent.value !== '') {
+      axios.put(`http://localhost:3000/tasks/update/${id}`, {
+        tarefa: newName.value,
+        comentario: newComent.value,
+      });
+    }
+  }
+  btnAtualizar.addEventListener('click', atualizar);
 }
 
-edit();
+function fecharModal() {
+  containerModal.classList.remove('ativo');
+}
 
-btnAdc.addEventListener('click', add);
+botaoFechar.addEventListener('click', fecharModal);

@@ -26,7 +26,9 @@ async function updateTask(id, tarefa, comentario) {
 }
 
 async function showTasks() {
-  const show = await conexao.query('SELECT * FROM tarefas WHERE deleted = 0;');
+  const show = await conexao.query(
+    'SELECT * FROM tarefas WHERE deleted = 0 ORDER BY updated_at DESC;',
+  );
   return show;
 }
 

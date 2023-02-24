@@ -14,27 +14,31 @@
       <header class="header">
         <img src="./img/ToDoList.svg" alt="logo">
         <form id="formAdc">
-          <input type="text" name="tarefa" id="tarefa" placeholder="Nome da tarefa">
-          <input type="text" name="comentario" id="comentario" placeholder="Inserir comentário">
+          <input type="text" name="tarefa" id="tarefa" placeholder="Nome da tarefa" maxlength='20' required>
+          <input type="text" name="comentario" id="comentario" placeholder="Inserir comentário" maxlength='100' required>
           <button type="submit" id="btnAdc">Adicionar</button>
         </form>
       </header>
       <div class="content">
         <div class="content">
           <div class="tasks">
-            <ul class="task">
-              <li id="check"><input type="checkbox"></li>
-              <li id="name">Nome da tarefa</li>
-              <li id="coment">comenterio da tarefa tal de onde foi tal</li>
-              <li id="date">01/01/0000</li>
-              <li id="edit"><img src="./img/edit.svg" alt=""></li>
-              <li id="del"><img src="./img/del.svg" alt=""></li>
-            </ul>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <section class="modal-container" data-modal="container">
+    <div class="modal">
+        <button data-modal="fechar" class="fechar">X</button>
+        <form action="">
+            <label for="nome">Nome:</label>
+            <input type="text" for="nome" id="nome" maxlength='20' required>
+            <label for="coment">Comentário:</label>
+            <textarea for="coment" id="coment" maxlength='100' rows='5' required></textarea>
+            <button type="submit" id="atualizar">Atualizar</button>
+        </form>
+    </div>
+</section>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js" integrity="sha512-wS6VWtjvRcylhyoArkahZUkzZFeKB7ch/MHukprGSh1XIidNvHG1rxPhyFnL73M0FC1YXPIXLRDAoOyRJNni/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="script.js"></script>
 </body>
