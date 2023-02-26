@@ -40,6 +40,10 @@ li {
   margin-left: 50px;
 }
 
+.header form {
+  margin-left: 30px;
+}
+
 .header form input{
   font-size: 1.5rem;
   padding: 10px 20px;
@@ -49,12 +53,19 @@ li {
   margin-top: 20px;
 }
 
-.header form button{
+.header form button,
+.header form span{
   font-size: 1.5rem;
   padding: 10px 20px;
   border-radius: 10px;
   background: #3E008D;
   color: #fff;
+  cursor: pointer;
+}
+
+#deletadas{
+  background: rgba(255, 0, 0);
+  margin-right: 30px;
 }
 
 .tasks {
@@ -62,13 +73,22 @@ li {
   border-radius: 0 0 10px 10px;
 }
 
-.tasks ul{
+.tasks.ativo ul{
   display: grid;
-  grid-template-columns: 20px 180px 500px 280px 40px 40px;
+  grid-template-columns: 140px 160px 320px 280px 40px 40px;
   word-wrap: break-word;
   align-items: center;
   gap: 30px;
   padding: 10px 30px;
+}
+
+.tasks ul{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  word-wrap: break-word;
+  align-items: center;
+  gap: 30px;
+  padding: 20px 30px;
 }
 
 .tasks ul:nth-child(2n+1){
@@ -90,6 +110,10 @@ li {
 
 #edit {
   background: url("./img/edit.svg") center no-repeat;
+}
+
+#back{
+  background: url("./img/back.svg") center no-repeat;
 }
 
 .modal-container{
@@ -125,7 +149,6 @@ li {
   gap: 10px;
 }
 .modal label{
-  font-family: "IBM Plex Mono", monospace;
   display: block;
   font-weight: bold;
   margin: 1rem 0 .5rem 0;
@@ -147,7 +170,6 @@ li {
   padding: .7rem .4rem;
   font-size: 1rem;
   color: #fff;
-  font-family: "IBM Plex Mono", monospace;
   font-weight: bold;
   margin-top: 1rem;
 }
@@ -166,3 +188,37 @@ li {
   color: #fff;
 }
 
+input[type="checkbox"] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+input[type="checkbox"] + label {
+  position: relative;
+  cursor: pointer;
+  padding-left: 30px;
+}
+
+input[type="checkbox"] + label::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: -5px;
+  bottom: 0px;
+  border: solid 2px;
+  border-radius: 50%;
+}
+
+input[type="checkbox"]:checked + label::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  bottom: 5px;
+  width: 10px;
+  height: 20px;
+  border-right: solid 5px #3E008D;
+  border-bottom: solid 5px #3E008D;
+  transform: rotate(45deg);
+}

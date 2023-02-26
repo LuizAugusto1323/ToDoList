@@ -8,7 +8,6 @@ function add() {
     comentario: coment.value,
   };
   if (data.tarefa !== '' && data.comentario !== '') {
-    show();
     axios.post('http://localhost:3000/tasks/insert', data);
   }
 }
@@ -19,18 +18,39 @@ function show() {
       let date = new Date(task.updated_at);
       const childElement = document.createElement('ul');
       childElement.className = task.id;
-      childElement.innerHTML = `<li><input type="checkbox"></li><li>${
-        task.tarefa
-      }</li><li>${
-        task.comentario
-      }</li><li>Atualizada em: ${date.toLocaleDateString()}</li><li><button id='edit' onClick="edit(${
-        task.id
-      })"></button></li><li><button id='del'></button></li>`;
-      divTask.appendChild(childElement);
+      if (task.ready === 0) {
+        childElement.innerHTML = `<li><input type="checkbox" id='${
+          task.id
+        }'><label for='${task.id}' onClick="checar(${
+          task.id
+        })">Aberta</label></li><li>${task.tarefa}</li><li>${
+          task.comentario
+        }</li><li>Atualizada em: ${date.toLocaleDateString()}</li><li><button id='edit' onClick="edit(${
+          task.id
+        })"></button></li><li><button id='del' onClick="delet(${
+          task.id
+        })"></button></li>`;
+        divTask.appendChild(childElement);
+      } else {
+        childElement.innerHTML = `<li><input type="checkbox" id='${
+          task.id
+        }' checked><label for='${task.id}' onClick="checar(${
+          task.id
+        })">Fechada</label></li><li>${task.tarefa}</li><li>${
+          task.comentario
+        }</li><li>Atualizada em: ${date.toLocaleDateString()}</li><li><button id='edit' onClick="edit(${
+          task.id
+        })"></button></li><li><button id='del' onClick="delet(${
+          task.id
+        })"></button></li>`;
+        divTask.appendChild(childElement);
+      }
     });
   });
+  return null;
 }
 show();
+
 btnAdc.addEventListener('click', add);
 
 const botaoFechar = document.querySelector('[data-modal="fechar"]');
@@ -57,3 +77,46 @@ function fecharModal() {
 }
 
 botaoFechar.addEventListener('click', fecharModal);
+
+function delet(id) {
+  axios.delete(`http://localhost:3000/tasks/delete/${id}`);
+  window.location.reload();
+}
+
+const deletadas = document.querySelector('#deletadas');
+
+function showDeleted() {
+  axios.get('http://localhost:3000/tasks/deleted').then((response) => {
+    const divTask = document.querySelector('.tasks');
+    response.data.forEach((task) => {
+      let date = new Date(task.updated_at);
+      const childElement = document.createElement('ul');
+      childElement.className = task.id;
+      childElement.innerHTML = `<li>${task.tarefa}</li><li>${
+        task.comentario
+      }</li><li>Atualizada em: ${date.toLocaleDateString()}</li></button></li>`;
+      divTask.appendChild(childElement);
+    });
+  });
+  return null;
+}
+
+function cleanTaskList() {
+  const divTask = document.querySelector('.tasks');
+  if (divTask.className === 'tasks ativo') {
+    divTask.innerHTML = showDeleted();
+    divTask.classList.remove('ativo');
+  } else {
+    divTask.classList.add('ativo');
+    divTask.innerHTML = show();
+  }
+}
+
+deletadas.addEventListener('click', cleanTaskList);
+
+function checar(id) {
+  axios.post(`http://localhost:3000/tasks/ready/${id}`, {
+    ready: 1,
+  });
+  window.location.reload();
+}

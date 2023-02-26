@@ -39,9 +39,9 @@ async function showDeleted() {
   return del;
 }
 
-async function ready(id, ready) {
+async function ready(id) {
   const reading = await conexao.query(
-    `UPDATE tarefas SET ready = ${ready} WHERE id = ${id};`,
+    `UPDATE tarefas SET ready = 1 WHERE id = ${id};`,
   );
   let res =
     ready === 1 ? 'Tarefa marcada como concluida.' : 'Tarefa desmarcada';
