@@ -1,4 +1,9 @@
 const btnAdc = document.querySelector('#btnAdc');
+const botaoFechar = document.querySelector('[data-modal="fechar"]');
+const containerModal = document.querySelector('[data-modal="container"]');
+const btnAtualizar = document.querySelector('#atualizar');
+const deletadas = document.querySelector('#deletadas');
+const divTask = document.querySelector('.tasks');
 
 function add() {
   const name = document.querySelector('#tarefa');
@@ -11,51 +16,25 @@ function add() {
     axios.post('http://localhost:3000/tasks/insert', data);
   }
 }
+
 function show() {
-  const divTask = document.querySelector('.tasks');
   axios.get('http://localhost:3000/tasks/show').then((response) => {
-    response.data.forEach((task) => {
-      let date = new Date(task.updated_at);
+    response.data.forEach(({ tarefa, comentario, id, updated_at, ready }) => {
+      let date = new Date(updated_at);
+      const bodyTask = `<li>${tarefa}</li><li>${comentario}</li><li>Atualizada em: ${date.toLocaleDateString()}</li><li><button id='edit' onClick="edit(${id})"></button></li><li><button id='del' onClick="delet(${id})"></button></li>`;
       const childElement = document.createElement('ul');
-      childElement.className = task.id;
-      if (task.ready === 0) {
-        childElement.innerHTML = `<li><input type="checkbox" id='${
-          task.id
-        }'><label for='${task.id}' onClick="checar(${
-          task.id
-        })">Aberta</label></li><li>${task.tarefa}</li><li>${
-          task.comentario
-        }</li><li>Atualizada em: ${date.toLocaleDateString()}</li><li><button id='edit' onClick="edit(${
-          task.id
-        })"></button></li><li><button id='del' onClick="delet(${
-          task.id
-        })"></button></li>`;
-        divTask.appendChild(childElement);
+      childElement.className = id;
+      if (ready === 0) {
+        childElement.innerHTML = `<li><input type="checkbox" id='${id}'><label for='${id}' onClick="checar(${id})">Aberta</label></li>${bodyTask}`;
       } else {
-        childElement.innerHTML = `<li><input type="checkbox" id='${
-          task.id
-        }' checked><label for='${task.id}' onClick="checar(${
-          task.id
-        })">Fechada</label></li><li>${task.tarefa}</li><li>${
-          task.comentario
-        }</li><li>Atualizada em: ${date.toLocaleDateString()}</li><li><button id='edit' onClick="edit(${
-          task.id
-        })"></button></li><li><button id='del' onClick="delet(${
-          task.id
-        })"></button></li>`;
-        divTask.appendChild(childElement);
+        childElement.innerHTML = `<li><input type="checkbox" id='${id}' checked><label for='${id}' onClick="checar(${id})">Fechada</label></li>${bodyTask}`;
       }
+      divTask.appendChild(childElement);
     });
   });
   return null;
 }
 show();
-
-btnAdc.addEventListener('click', add);
-
-const botaoFechar = document.querySelector('[data-modal="fechar"]');
-const containerModal = document.querySelector('[data-modal="container"]');
-const btnAtualizar = document.querySelector('#atualizar');
 
 function edit(id) {
   containerModal.classList.add('ativo');
@@ -76,14 +55,10 @@ function fecharModal() {
   containerModal.classList.remove('ativo');
 }
 
-botaoFechar.addEventListener('click', fecharModal);
-
 function delet(id) {
   axios.delete(`http://localhost:3000/tasks/delete/${id}`);
   window.location.reload();
 }
-
-const deletadas = document.querySelector('#deletadas');
 
 function showDeleted() {
   axios.get('http://localhost:3000/tasks/deleted').then((response) => {
@@ -102,7 +77,6 @@ function showDeleted() {
 }
 
 function cleanTaskList() {
-  const divTask = document.querySelector('.tasks');
   if (divTask.className === 'tasks ativo') {
     divTask.innerHTML = showDeleted();
     divTask.classList.remove('ativo');
@@ -112,11 +86,13 @@ function cleanTaskList() {
   }
 }
 
-deletadas.addEventListener('click', cleanTaskList);
-
 function checar(id) {
   axios.post(`http://localhost:3000/tasks/ready/${id}`, {
     ready: 1,
   });
   window.location.reload();
 }
+
+btnAdc.addEventListener('click', add);
+botaoFechar.addEventListener('click', fecharModal);
+deletadas.addEventListener('click', cleanTaskList);
